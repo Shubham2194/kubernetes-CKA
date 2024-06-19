@@ -1,8 +1,8 @@
-Step 1: Label Your Namespaces
+**Step 1: Label Your Namespaces**
 
 First, label your namespaces to make them identifiable in your network policies.
 
-Backend Namespace:
+**Backend Namespace:**
 
 apiVersion: v1
 kind: Namespace
@@ -12,8 +12,7 @@ metadata:
     name: backend
 
 
-
-Database Namespace:
+**Database Namespace:**
 
 apiVersion: v1
 kind: Namespace
@@ -26,13 +25,12 @@ metadata:
 kubectl apply -f backend-namespace.yaml
 kubectl apply -f database-namespace.yaml
 
-Step 2: Create the Network Policy in the Database Namespace
 
+**Step 2: Create the Network Policy in the Database Namespace**
 
 Next, create a Network Policy that allows ingress traffic to the Database namespace only from the Backend namespace.
 
-Network Policy YAML:
-
+**Network Policy YAML:**
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
@@ -52,4 +50,4 @@ spec:
 kubectl apply -f allow-backend-to-database.yaml
 
 
-COOL!
+**COOL!**
