@@ -7,22 +7,15 @@ First, label your namespaces to make them identifiable in your network policies.
 
 **Backend Namespace:**
 
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: backend
-  labels:
-    name: backend
+![image](https://github.com/Shubham2194/kubernetes-CKA/assets/83746560/6af21263-d317-4e95-a4df-5a2008947b03)
+
+
 
 
 **Database Namespace:**
 
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: database
-  labels:
-    name: database
+![image](https://github.com/Shubham2194/kubernetes-CKA/assets/83746560/ba0762e4-e7d6-4570-b228-99d2abc5db40)
+
 
 
 kubectl apply -f backend-namespace.yaml
@@ -34,20 +27,10 @@ kubectl apply -f database-namespace.yaml
 Next, create a Network Policy that allows ingress traffic to the Database namespace only from the Backend namespace.
 
 **Network Policy YAML:**
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  name: allow-backend-to-database
-  namespace: database
-spec:
-  podSelector: {}
-  policyTypes:
-  - Ingress
-  ingress:
-  - from:
-    - namespaceSelector:
-        matchLabels:
-          name: backend
+
+
+![image](https://github.com/Shubham2194/kubernetes-CKA/assets/83746560/b9bb8a14-aaf3-49fe-b97a-f73ac410c14e)
+
 
 
 kubectl apply -f allow-backend-to-database.yaml
