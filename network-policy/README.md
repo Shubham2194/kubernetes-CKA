@@ -1,3 +1,5 @@
+https://cdn.hashnode.com/res/hashnode/image/upload/v1679723387721/3433ef2b-59ae-4fc3-8c9f-338e2ddf611f.png?w=1600&h=840&fit=crop&crop=entropy&auto=compress,format&format=webp
+
 **Step 1: Label Your Namespaces**
 
 First, label your namespaces to make them identifiable in your network policies.
@@ -48,6 +50,8 @@ spec:
 
 
 kubectl apply -f allow-backend-to-database.yaml
+
+https://res.cloudinary.com/practicaldev/image/fetch/s--a_9WOxNV--/c_limit,f_auto,fl_progressive,q_auto,w_800/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ex3cxdq3ig0ip42cr2rt.png
 
 
 **COOL!**
