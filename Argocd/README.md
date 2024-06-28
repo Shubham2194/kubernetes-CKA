@@ -39,6 +39,43 @@ Step 3:
 
 **Now push helm chart on github and deploy argocd in k8s envirment**
 
+![image](https://github.com/Shubham2194/kubernetes-CKA/assets/83746560/041afcc6-f9c4-48fa-8be3-1a45508c65e3)
+
+
+kubectl create namespace argocd
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+
+kubectl get pods,svc -n argocd
+
+![image](https://github.com/Shubham2194/kubernetes-CKA/assets/83746560/1f06e5a3-8eea-44e6-b027-6a017a9b8d43)
+
+Step 4:
+
+**deploy nginx ingress cotroller and Cert-manager in K8s environment**
+
+kubectl create namespace ingress-nginx
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
+
+kubectl get pods --namespace ingress-nginx
+
+
+kubectl create namespace cert-manager
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.15.1/cert-manager.yaml
+
+kubectl -n cert-manager get all
+
+Step 5:
+**Expose ArgoCD with nginx ingress resource**
+
+Find the ingress.yaml and cert.yaml in the root directory 
+kubectl apply -f cert.yaml -f ingress.yaml
+
+kubectl get ing,cert -n argocd
+
+
+Step 6:
+**Deploy helm chart in the Nginx namespace from argocd using apps of apps and sync using argocd cli**
 
 
 
