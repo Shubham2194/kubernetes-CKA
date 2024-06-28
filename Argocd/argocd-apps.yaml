@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nginx
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/Shubham2194/kubernetes-CKA.git'
+    targetRevision: 'main'
+    path: 'Argocd/nginx'  
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: nginx
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
