@@ -112,7 +112,7 @@ rm argocd-linux-amd64
 
 **LOGIN TO ARGO**
 
-argocd login argo.tlabs.ai --grpc-web
+argocd login argo.com --grpc-web
 
 
 ![image](https://github.com/Shubham2194/kubernetes-CKA/assets/83746560/ef238452-c795-46df-ba89-c993a10164d2)
