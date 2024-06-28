@@ -13,7 +13,7 @@ Topics covered:
 
 **1) Simple Helm chart creation for public Image and push to Github repo**
 
-**2) deploy Argocd on any managed service (GKE,EKS,AKS) or in any self managed cluster(kind,minikube)**
+**2) Deploy Argocd on any managed service (GKE,EKS,AKS) or in any self managed cluster(kind,minikube)**
 
 **3) Deploy nginx ingress controller and Cert manager and expose ArgoCD with Ingress and Cert manager**
 
@@ -27,7 +27,7 @@ Topics covered:
 
 
 Step 1: 
-**create nginx namespace and create helm chart**
+**Create nginx namespace and create helm chart**
 
 kubectl create ns nginx
 helm create <chart name>
@@ -68,7 +68,7 @@ kubectl get pods,svc -n argocd
 
 Step 4:
 
-**deploy nginx ingress cotroller and Cert-manager in K8s environment**
+**Deploy nginx ingress cotroller and Cert-manager in K8s environment**
 
 kubectl create namespace ingress-nginx
 
