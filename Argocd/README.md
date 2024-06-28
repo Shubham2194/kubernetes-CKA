@@ -4,13 +4,19 @@ Today we are going to deploy Helm chart present in git repository from ArgoCD an
 
 Topics covered:
 
-**Simple Helm chart creation for public Image and push to Github repo**
-**deploy Argocd on any managed service (GKE,EKS,AKS) or in any self managed cluster(kind,minikube)**
-**Deploy nginx ingress controller and Cert manager and expose ArgoCD with Ingress and Cert manager**
-**Access ArgoCD webUI**
-**Added Github repo in secure way**
-**Create apps of apps file to integrate ArgoCD with github repository**
-**Install argocd Cli locally and list all the running applications**
+**1) Simple Helm chart creation for public Image and push to Github repo**
+
+**2) deploy Argocd on any managed service (GKE,EKS,AKS) or in any self managed cluster(kind,minikube)**
+
+**3) Deploy nginx ingress controller and Cert manager and expose ArgoCD with Ingress and Cert manager**
+
+**4) Access ArgoCD webUI**
+
+**5) Added Github repo in secure way**
+
+**6) Create apps of apps file to integrate ArgoCD with github repository**
+
+**7) Install argocd Cli locally and list all the running applications**
 
 
 Step 1: 
