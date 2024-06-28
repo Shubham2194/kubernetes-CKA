@@ -28,5 +28,33 @@ helm create <chart name>
 ![image](https://github.com/Shubham2194/kubernetes-CKA/assets/83746560/4ca45ead-022c-4403-8466-6af8a70aa265)
 
 Step 2:
+**Make changes in the values.yaml file accordin to requirenment**
 
-Make changes in the values.yaml file accordin to requirenment 
+we are keeping image as nginx with latest tag
+
+![image](https://github.com/Shubham2194/kubernetes-CKA/assets/83746560/08b19f73-85fe-476b-8a73-396ff1cbb903)
+
+
+Step 3: 
+
+**Now push helm chart on github and deploy argocd in k8s envirment**
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
