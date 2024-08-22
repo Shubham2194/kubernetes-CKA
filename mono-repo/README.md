@@ -77,7 +77,7 @@ Create a Helm chart in EKS and deploy the API manually
  - helm create api
  - nano api/values.yaml and change the following:
 
-   ```yml
+```yml 
 replicaCount: 1
 
 image:
@@ -103,15 +103,13 @@ service:
   type: ClusterIP
   port: 80
   targetport: 3333 #API port
-
-  ```
+```
 
 Step 4:
 ADD the Port in deployment.yaml
 
 
 ```yml
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
