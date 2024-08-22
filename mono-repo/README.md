@@ -198,7 +198,8 @@ spec:
 
 Step 6:
 
-Helm install api api
+Helm upgrade --install api api
+
 And this is how we can manage Mono-repo deployment with single Dockerfile , we can Automate this as well using Jenkins or any CI/CD tool.
 
 **We have Successfully deployed our Mono Repo API in the EKS !!**
