@@ -44,7 +44,6 @@ Create a bash script which will take APP_NAME and Image name as argument and cre
 ```bash
 #!/bin/bash
 
-cd /home/antino/Downloads/Tlabs/flipspaces/fs-repos/fs.apis
 git pull origin develop
 
 # Check if the required arguments are provided
@@ -74,5 +73,113 @@ docker push ${imageRepository}:${imageTag}
 Step 3:
 Create a Helm chart in EKS and deploy the API manually
 
+ - aws eks update-kubeconfig --region ap-south-1 --name abc
  - helm create api
+ - nano api/values.yaml and change the following:
+
+   ```yml
+   replicaCount: 1
+
+image:
+  repository: 44421xxxx.dkr.ecr.ap-south-1.amazonaws.com/abc #URL of your ECR
+  pullPolicy: IfNotPresent
+  tag: "api"   #Image TAG
+
+imagePullSecrets:
+- name:  ecr-registry-secret #ECR pull secrets 
+
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  automount: true
+  annotations: {}
+  name: ""
+
+podAnnotations: {}
+podLabels: {}
+service:
+  type: ClusterIP
+  port: 80
+  targetport: 3333 #API port
+
+  ```
+
+Step 4:
+ADD the Port in deployment.yaml
+
+```yml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "chat.fullname" . }}
+  labels:
+    {{- include "chat.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "chat.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "chat.labels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "chat.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.targetport }}
+              protocol: TCP
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          {{- with .Values.volumeMounts }}
+          volumeMounts:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      {{- with .Values.volumes }}
+      volumes:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+```
+
+Step 5:
+
+Helm install api api
+
+
+
   
