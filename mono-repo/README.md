@@ -78,7 +78,7 @@ Create a Helm chart in EKS and deploy the API manually
  - nano api/values.yaml and change the following:
 
    ```yml
-   replicaCount: 1
+replicaCount: 1
 
 image:
   repository: 44421xxxx.dkr.ecr.ap-south-1.amazonaws.com/abc #URL of your ECR
@@ -109,7 +109,9 @@ service:
 Step 4:
 ADD the Port in deployment.yaml
 
+
 ```yml
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
