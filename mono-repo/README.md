@@ -62,7 +62,6 @@ awsRegion="ap-south-1"
 namespace="backend"
 awsAccountId="44421XXXXXX"
 
-#sudo docker build --no-cache -t chat . --build-arg APP_NAME=chat
 docker build  --no-cache -t ${registry} --build-arg APP_NAME=${APP_NAME} .
 aws ecr get-login-password --region ${awsRegion} | docker login --username AWS --password-stdin ${awsAccountId}.dkr.ecr.${awsRegion}.amazonaws.com
 docker tag ${registry}:latest ${imageRepository}:${imageTag}
