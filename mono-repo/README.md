@@ -106,7 +106,8 @@ service:
 ```
 
 Step 4:
-ADD the Port in deployment.yaml
+
+ADD the Port in deployment.yaml - Change to {{ .Values.service.targetport }}
 
 
 ```yml
@@ -176,9 +177,32 @@ spec:
       {{- end }}
 ```
 
-Step 5:
+Step 5: Changes TargetPort value in service.yml
+
+```yml
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "chat.fullname" . }}
+  labels:
+    {{- include "chat.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.targetport }}
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "chat.selectorLabels" . | nindent 4 }}
+```
+
+Step 6:
 
 Helm install api api
+And this is how we can manage Mono-repo deployment with single Dockerfile , we can Automate this as well using Jenkins or any CI/CD tool.
+
+**We have Successfully deployed our Mono Repo API in the EKS !!**
 
 
 
