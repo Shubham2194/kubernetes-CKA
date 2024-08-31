@@ -22,4 +22,5 @@
 
 
 
-
+Let's start
+Step 1: Install Istioctl in K8s
