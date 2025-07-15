@@ -25,3 +25,57 @@ spec:
     - hosts:
         - argo.com ##change according to yours
       secretName: argocd-cert
+---
+ ### If you want to expose Argo with ingress in EKS ####
+(before this make sure you have used service as NodePort:
+
+  ports:
+  - name: http
+    nodePort: 30080
+    port: 80
+    protocol: TCP
+    targetPort: 8080
+  - name: https
+    nodePort: 30443
+    port: 443
+    protocol: TCP
+    targetPort: 8080
+  type: NodePort
+)      
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: argo-ingress
+  namespace: argocd
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/load-balancer-name: Load balancer name
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-southeast-1:AWS_ACCOUNT_ID:certificate/RAnDOM
+    alb.ingress.kubernetes.io/group.name: my-ingress-group
+    alb.ingress.kubernetes.io/subnets: <your subnets>
+    alb.ingress.kubernetes.io/backend-protocol: HTTPS
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
+    alb.ingress.kubernetes.io/conditions.argogrpc: |
+      [{"field":"http-header","httpHeaderConfig":{"httpHeaderName": "Content-Type", "values":["application/grpc"]}}]
+spec:
+  ingressClassName: alb
+  rules:
+    - host: argocd.opendots.ai
+      http:
+        paths:
+          - path: /
+            backend:
+              service:
+                name: tlabs-argo-argocd-server
+                port:
+                  number: 443
+            pathType: Prefix
+          - path: /
+            backend:
+              service:
+                name: argogrpc
+                port:
+                  number: 443
+            pathType: Prefix
+
