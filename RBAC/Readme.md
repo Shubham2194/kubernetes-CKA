@@ -105,6 +105,10 @@ Instllation of kubeconfig-generator tool
 
 ```
 brew install go
+echo 'export GOPATH=$HOME/go' >> ~/.zshrc
+echo 'export PATH=$PATH:$GOPATH/bin' >> ~/.zshrc
+source ~/.zshrc
+
 ```
 
 ```
