@@ -1,4 +1,8 @@
-### RBAC ####
+<img width="672" height="235" alt="image" src="https://github.com/user-attachments/assets/86c434a0-d0b7-42d7-87ec-8b27162892fc" />
+
+
+
+###               RBAC            ####
 (prerequisites : docker and k8s cluster is up and runnig)
 
 Step-by-Step:
