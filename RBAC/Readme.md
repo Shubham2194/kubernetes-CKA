@@ -9,7 +9,7 @@ Step1: Create Service Accounts and Token
 
 For each team, create a dedicated ServiceAccount in a specific namespace (or kube-system if you want broader control):
 
-(we can create svc account either way , yaml/imperative command)
+(we can create resources either way , yaml/imperative command)
 # For junior devops team
 ```
 cat <<EOF > junior-serviceaccount.yaml
