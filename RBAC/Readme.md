@@ -216,6 +216,16 @@ So as per the ClusterRole it should not be able to edit/delete the resources and
 
 <img width="1166" height="853" alt="image" src="https://github.com/user-attachments/assets/21ed0764-da80-4137-8929-aaeafcc4751f" />
 
+Step 6: Check if both kubeconfig have appropriate access 
+
+```
+ kubectl auth can-i delete pods --as=system:serviceaccount:kube-system:junior-devops -n backend
+```
+
+```
+ kubectl auth can-i delete pods --as=system:serviceaccount:kube-system:senior-devops -n backend
+```
+
 🚫 Avoid:
 Sharing admin kubeconfig
 
