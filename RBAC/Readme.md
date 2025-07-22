@@ -68,7 +68,7 @@ type: kubernetes.io/service-account-token
 
 Step2: Define ClusterRoles
 
-Junior DevOps (List pods in all namespaces):
+# Junior DevOps (List pods in all namespaces):
 
 ```
 cat <<EOF > junior-clusterRole.yaml
@@ -86,7 +86,7 @@ rules:
 EOF
 ```
 
-Senior DevOps (Edit all resources but no deletion):
+# Senior DevOps (Edit all resources but no deletion):
 
 ```
 cat <<EOF > senior-clusterRole.yaml
@@ -160,7 +160,7 @@ EOF
 
   
 Step 4. Generate Kubeconfig Files for Them
-You can generate kubeconfig for each ServiceAccount using this script:
+# Generate kubeconfig for each ServiceAccount using this script:
 
 ✅ 
 ```
