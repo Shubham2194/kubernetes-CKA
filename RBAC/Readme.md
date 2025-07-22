@@ -62,7 +62,6 @@ type: kubernetes.io/service-account-token
 <img width="1002" height="280" alt="image" src="https://github.com/user-attachments/assets/f439c719-2f44-40d0-b299-92d02d8d5dc6" />
 
 
-
 Step2: Define ClusterRoles
 
 Junior DevOps (List pods in all namespaces):
@@ -112,8 +111,6 @@ EOF
 
 
 <img width="923" height="212" alt="image" src="https://github.com/user-attachments/assets/98b5c4d5-2caa-430c-8a49-814f05abf686" />
-
-
 
 
 Step 3: Bind the Cluster Roles
