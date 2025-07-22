@@ -1,9 +1,12 @@
 ### RBAC ####
 (prerequisites : docker and k8s cluster is up and runnig)
+
 Step-by-Step:
+
 ( I am Using KIND Cluster for this POC )
 
 Step1: Create Service Accounts and Token
+
 For each team, create a dedicated ServiceAccount in a specific namespace (or kube-system if you want broader control):
 
 (we can create svc account either way , yaml/imperative command , using both one by one)
@@ -55,6 +58,7 @@ metadata:
 type: kubernetes.io/service-account-token
 ```
 
+
 <img width="1002" height="280" alt="image" src="https://github.com/user-attachments/assets/f439c719-2f44-40d0-b299-92d02d8d5dc6" />
 
 
@@ -103,9 +107,9 @@ rules:
 - apiGroups: ["rbac.authorization.k8s.io"]
   resources: ["roles", "rolebindings"]
   verbs: ["get", "list", "watch"]
-
 EOF
 ```
+
 
 <img width="923" height="212" alt="image" src="https://github.com/user-attachments/assets/98b5c4d5-2caa-430c-8a49-814f05abf686" />
 
@@ -149,6 +153,7 @@ roleRef:
   apiGroup: rbac.authorization.k8s.io
 EOF
 ```
+
 
 <img width="1244" height="215" alt="image" src="https://github.com/user-attachments/assets/443133e7-ecf9-4ec4-9b6e-00436bedba44" />
 
@@ -205,6 +210,7 @@ EOF
 echo "✅ Kubeconfig written to: $OUTPUT_FILE"
 echo "👉 Use with: KUBECONFIG=$OUTPUT_FILE kubectl get pods --all-namespaces"
 ```
+
 
 <img width="1672" height="868" alt="image" src="https://github.com/user-attachments/assets/47730fa1-a8ba-4d88-ab1e-48788f4583d1" />
 
