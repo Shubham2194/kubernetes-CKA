@@ -1,0 +1,10 @@
+htpasswd -c kibana-auth kibanauser
+pass: kibanadev
+
+kubectl create secret generic kibana-auth-secret \
+  --from-file=auth=kibana-auth \
+  --namespace=logging
+
+
+
+

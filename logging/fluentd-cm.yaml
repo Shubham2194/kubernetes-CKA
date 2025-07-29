@@ -1,0 +1,58 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fluentd-config
+  namespace: logging
+data:
+  fluent.conf: |
+    # The source reads logs from all containers
+    <source>
+      @type tail
+      path /var/log/containers/*.log
+      # CHANGE THIS LINE
+      pos_file /fluentd/buffer/fluentd-containers.log.pos
+      time_format %Y-%m-%dT%H:%M:%S
+      tag kubernetes.*
+      read_from_head true
+      <parse>
+        @type multi_format
+        <pattern>
+          format json
+        </pattern>
+        <pattern>
+          format none
+        </pattern>
+      </parse>
+    </source>
+
+    # FIRST: Enrich logs with Kubernetes metadata
+    <filter kubernetes.**>
+      @type kubernetes_metadata
+    </filter>
+
+    # SECOND: Filter the enriched logs, keeping only the 'backend' namespace
+    <filter kubernetes.**>
+      @type grep
+      <regexp>
+        key $.kubernetes.namespace_name
+        pattern ^backend$
+      </regexp>
+    </filter>
+
+    # ADD THIS TEMPORARY DEBUG FILTER
+    <filter kubernetes.**>
+      @type stdout
+    </filter>
+
+    # Match the filtered logs and send them to Elasticsearch
+    <match kubernetes.**>
+      @type elasticsearch
+      @id out_es
+      host elasticsearch.logging.svc.cluster.local
+      port 9200
+      scheme "#{ENV['FLUENT_ELASTICSEARCH_SCHEME'] || 'http'}"
+      logstash_format true
+      include_tag_key true
+      tag_key @log_name
+      flush_interval 5s
+    </match>
