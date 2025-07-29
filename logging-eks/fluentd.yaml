@@ -35,7 +35,7 @@ spec:
           effect: "NoSchedule"                      
       containers:
       - name: fluentd
-        image: 343218191116.dkr.ecr.ap-southeast-1.amazonaws.com/dev-ecr:fluentd-arm64-custom-2
+        image: <your custom image>
         env:       
         - name: FLUENT_ELASTICSEARCH_HOST
           value: "elasticsearch.logging.svc.cluster.local"
