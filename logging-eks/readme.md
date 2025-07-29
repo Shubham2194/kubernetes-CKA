@@ -1,5 +1,7 @@
 # 🧠 EFK Logging Stack for EKS with ARM64 (Graviton) Node Support
 
+(Checkout all the files in the repo for refrence)
+
 This repository contains a **production-ready logging stack using EFK (Elasticsearch, Fluentd, Kibana)** for an Amazon EKS cluster running on **ARM64 (Graviton)** nodes.
 
 ✅ Fluentd is deployed as a **custom Docker image** built for ARM64.  
@@ -62,6 +64,7 @@ containers:
 ```
 
 4. 🎯 Add Tolerations to Schedule Fluentd on ARM Nodes
+   
 Ensure that your Graviton nodes are tainted (e.g., internal=arm64:NoSchedule), then add tolerations in the DaemonSet:
 
 ```
