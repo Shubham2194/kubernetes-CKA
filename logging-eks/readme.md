@@ -154,28 +154,32 @@ spec:
 7. After making all the changes in the daemonset of fluentd, nginx cm and ingress controller , apply it
    
 ```
- kubectl apply -f kubernetes-CKA/logging-eks .
+kubectl apply -f kubernetes-CKA/logging-eks .
 ```
 
 <img width="755" height="296" alt="image" src="https://github.com/user-attachments/assets/b9ed9f1d-359e-438f-b328-08468c0dcdf3" />
 
-8. Check your ingrss is mapped with ALb and available
+8. Check your ingress is mapped with ALb and available
 
 ```
 kubectl get ing -n logging
 ```
 
 9. Lastly hit your kibana host in Browser and fill you auth creds to access kibana dashboard
+
 Note: make sure to map it with your DNS (route53 , cloudflare , hostinger etc)
 
 now goto :
-home > index_management > index patterns > type logstash-* and save it 
+
+home > index_management > index patterns > type logstash-* and save it.
+
 Now goto home > discover and in search type:
 ```
 kubernetes.namespace_name : backend
 ```
 
 ## WE are Done and Setuped Centralized Logging !!!
+
 
 
 
