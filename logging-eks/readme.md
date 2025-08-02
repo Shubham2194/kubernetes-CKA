@@ -181,6 +181,9 @@ kubernetes.namespace_name : backend
 ## WE are Done and Setuped Centralized Logging !!!
 
 
+<img width="1671" height="485" alt="image" src="https://github.com/user-attachments/assets/838eaaf3-053d-4b95-b025-930ff23f0b96" />
+
+
 
 
 
