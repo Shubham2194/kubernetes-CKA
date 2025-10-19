@@ -67,7 +67,7 @@ spec:
           - path: /
             backend:
               service:
-                name: tlabs-argo-argocd-server
+                name: argocd-server
                 port:
                   number: 443
             pathType: Prefix
