@@ -40,19 +40,24 @@ Step 2:
 Install NGINX Gateway
 
 ```
-helm repo add nginx-gateway-fabric nginxinc.github.io helm repo update
+kubectl apply --server-side -f https://raw.githubusercontent.com/nginx/nginx-gateway-fabric/v2.2.1/deploy/crds.yaml
 
+kubectl apply -f https://raw.githubusercontent.com/nginx/nginx-gateway-fabric/v2.2.1/deploy/default/deploy.yaml
 
-helm install ngf nginx-gateway-fabric/nginx-gateway-fabric --create-namespace -n nginx-gateway
 
 ```
+
+<img width="1236" height="428" alt="image" src="https://github.com/user-attachments/assets/cf1e9660-3151-4a3d-9361-af679e7e5203" />
+
 
 Step 3:
 Verify the Deployment and Access the Gateway
 
 ```
-kubectl get services -n nginx-gateway
+kubectl get all -n nginx-gateway
 ```
+<img width="823" height="238" alt="image" src="https://github.com/user-attachments/assets/121fd0bf-b11c-4eed-b761-0fff19ef4bd5" />
+
 
 Once the EXTERNAL-IP is available, you can retrieve it with this command:
 
@@ -60,3 +65,4 @@ Once the EXTERNAL-IP is available, you can retrieve it with this command:
 export GW_URL=$(kubectl get svc ngf -n nginx-gateway -o jsonpath='{.status.loadBalancer.ingress[].ip}')
 echo "NGINX Gateway URL: http://$GW_URL/"
 ```
+
