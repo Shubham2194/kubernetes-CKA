@@ -34,3 +34,29 @@ UDP Routes: kubectl get udproute
 
 Note: Gateway API is very new, and all of the above is subject to change quite rapidly
   
+
+
+Step 2:
+Install NGINX Gateway
+
+```
+helm repo add nginx-gateway-fabric nginxinc.github.io helm repo update
+
+
+helm install ngf nginx-gateway-fabric/nginx-gateway-fabric --create-namespace -n nginx-gateway
+
+```
+
+Step 3:
+Verify the Deployment and Access the Gateway
+
+```
+kubectl get services -n nginx-gateway
+```
+
+Once the EXTERNAL-IP is available, you can retrieve it with this command:
+
+```
+export GW_URL=$(kubectl get svc ngf -n nginx-gateway -o jsonpath='{.status.loadBalancer.ingress[].ip}')
+echo "NGINX Gateway URL: http://$GW_URL/"
+```
