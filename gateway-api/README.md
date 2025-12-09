@@ -15,7 +15,7 @@ Step 1:
 Install Gateway API CRDs
 
 ```
-kubectl apply --server-side -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.4.0/experimental-install.yaml
+kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/latest/download/standard-install.yaml
 ```
 
 <img width="1238" height="304" alt="image" src="https://github.com/user-attachments/assets/9c4cb2c2-e30f-4e9d-96cb-2aa1bbfef9ef" />
@@ -65,4 +65,55 @@ export GW_URL=$(kubectl get svc ngf -n nginx-gateway -o jsonpath='{.status.loadB
 echo "NGINX Gateway URL: http://$GW_URL/"
 ```
 
+Step 4:
+Create the Gateway Resource
+
+```
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: Gateway
+metadata:
+  name: ngf-gateway
+  namespace: nginx-gateway
+spec:
+  gatewayClassName: nginx
+  listeners:
+    - name: http
+      protocol: HTTP
+      port: 80
+      allowedRoutes:
+        namespaces:
+          from: All
+```
+
+```
+kubectl apply -f gateway.yaml
+kubectl get gateway -A
+```
+
+<img width="763" height="144" alt="image" src="https://github.com/user-attachments/assets/aaf6d164-9187-44a2-80b0-ed58bdc66fe1" />
+
+✅ STEP 5:
+Now apply your HTTPRoute
+
+```
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: HTTPRoute
+metadata:
+  name: backend-route
+  namespace: backend # Place the route in the same namespace as your service
+spec:
+  parentRefs:
+  - name: ngf-nginx-gateway-fabric # Name of the Gateway resource you created
+    namespace: nginx-gateway # Namespace where your Gateway is deployed (adjust if different)
+  hostnames:
+  - "" # Replace with your actual domain or leave blank to match all hostnames
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - name: xyz # Name of your backend Service from the image
+      port: 8000 # Port of your backend Service from the image
+```
 
