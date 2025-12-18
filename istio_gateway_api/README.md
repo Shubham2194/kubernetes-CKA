@@ -332,9 +332,67 @@ kubectl apply -f referencegrant.yaml
 Part 7: Creating the HTTPRoute
 Now we’ll configure routing rules that direct traffic from the Gateway to our backend service.
 
+http_route.yaml
+
+```
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: nginx-route
+  namespace: backend
+spec:
+  hostnames:
+  - "abc-xyz.ai"
+  parentRefs:
+  - name: gateway
+    namespace: gateway
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - name: nginx
+      port: 80
+```
 
 
+What this does:
 
+Routes traffic for app.local hostname
+References the Gateway in the gateway namespace
+Matches all paths starting with /
+Forwards traffic to the nginx service on port 80
+Apply the HTTPRoute:
+```
+kubectl apply -f htt_proute.yaml
+```
+
+Verify it’s attached to the gateway:
+
+```
+kubectl describe httproute nginx-route -n backend
+```
+Look for Conditions showing Accepted: True and ResolvedRefs: True.
+
+
+Conclusion
+You’ve successfully built a modern Kubernetes ingress setup using Istio and Gateway API! This architecture provides:
+
+✅ Flexibility: Easy to add new routes and services
+✅ Security: Namespace isolation and explicit permissions
+✅ Scalability: Istio’s powerful traffic management
+✅ Standards-based: Using the official Gateway API
+
+The Gateway API represents the future of Kubernetes traffic management,
+offering better separation of concerns between cluster operators and application developers. 
+By following this guide, you’ve laid the foundation for a production-ready ingress architecture.
+
+Next Steps:
+Explore advanced Gateway API features (traffic splitting, timeouts, retries)
+Integrate Istio observability tools (Grafana, Kiali, Jaeger)
+Implement mutual TLS (mTLS) for service-to-service communication
+Configure rate limiting and circuit breakers
 
 
 
