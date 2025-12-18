@@ -292,9 +292,45 @@ kubectl get gateway -n gateway
 
 
 
+Part 6: Setting Up ReferenceGrants
+Since we’re referencing resources across namespaces (Gateway in gateway namespace accessing Secret in certs namespace),
+we need to explicitly allow this with ReferenceGrants.
+
+referencegrant.yaml:
+
+```
+# Allow Gateway to use TLS secret from 'certs' namespace
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: ReferenceGrant
+metadata:
+  name: allow-gateway-to-tls-secret
+  namespace: certs
+spec:
+  from:
+  - group: gateway.networking.k8s.io
+    kind: Gateway
+    namespace: gateway
+  to:
+  - group: ""
+    kind: Secret
+    name: app-local-tls
+```
 
 
 
+Understanding ReferenceGrants:
+
+Created in the target namespace (the one being referenced)
+from specifies who can access (source)
+to specifies what can be accessed (target)
+Apply the grants:
+
+```
+kubectl apply -f referencegrant.yaml
+```
+
+Part 7: Creating the HTTPRoute
+Now we’ll configure routing rules that direct traffic from the Gateway to our backend service.
 
 
 
