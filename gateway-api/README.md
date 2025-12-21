@@ -43,13 +43,14 @@ Step 2:
 Install NGF Gateway
 
 values.yaml
-```
 
+```
 certGenerator:
   enable: true
   serverTLSSecretName: server-tls
   agentTLSSecretName: agent-tls
   overwrite: true
+```
 
 ```
 helm install ngf \
@@ -57,6 +58,7 @@ oci://ghcr.io/nginx/charts/nginx-gateway-fabric \
 -n nginx-gateway  --create-namespace \
 -f ngf-values.yaml
 ```
+
 <img width="1033" height="300" alt="image" src="https://github.com/user-attachments/assets/badc1b82-7903-4172-887f-08e2cd5040dc" />
 
 
@@ -64,10 +66,13 @@ step 3: install jetstack cert manager
 
 ```
 helm repo add cert-manager https://charts.jetstack.io
+
 helm repo update 
+
 helm install cert-manager-google-cas-issuer cert-manager/cert-manager-google-cas-issuer --version 0.10.2
 ```
 
+```
 kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.2.1/standard-install.yaml
 helm install ngf oci://ghcr.io/nginxinc/charts/nginx-gateway-fabric --create-namespace -n nginx-gateway
 
@@ -144,5 +149,6 @@ spec:
     - name: xyz # Name of your backend Service from the image
       port: 8000 # Port of your backend Service from the image
 ```
+
 
 
