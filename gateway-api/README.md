@@ -147,8 +147,36 @@ spec:
         value: /
     backendRefs:
     - name: xyz # Name of your backend Service from the image
-      port: 8000 # Port of your backend Service from the image
+      port: 80 # Port of your backend Service from the image
 ```
+
+Step 6: 
+Cluster issuer
+
+```
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-dev
+spec:
+  acme:
+    email: shubham.shastri1994@gmail.com
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: letsencrypt-dev-key
+    solvers:
+      - http01:
+          gatewayHTTPRoute:
+            parentRefs:
+            - kind: Gateway
+              group: gateway.networking.k8s.io
+              name: ngf-gateway
+              namespace: nginx-gateway
+```
+
+<img width="849" height="116" alt="image" src="https://github.com/user-attachments/assets/7c9a12a7-38c8-4a2d-b673-789de2139513" />
+
+
 
 
 
