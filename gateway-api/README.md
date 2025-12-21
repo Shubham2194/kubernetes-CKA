@@ -16,7 +16,10 @@ Install Gateway API CRDs
 
 ```
 kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/latest/download/standard-install.yaml
+kubectl apply --server-side --force-conflicts -f https://raw.githubusercontent.com/nginx/nginx-gateway-fabric/v2.3.0/deploy/crds.yaml
 ```
+<img width="1300" height="194" alt="image" src="https://github.com/user-attachments/assets/dedaea09-360f-4244-ace8-25b75a02e177" />
+
 
 <img width="1238" height="304" alt="image" src="https://github.com/user-attachments/assets/9c4cb2c2-e30f-4e9d-96cb-2aa1bbfef9ef" />
 
@@ -37,9 +40,34 @@ Note: Gateway API is very new, and all of the above is subject to change quite r
 
 
 Step 2:
-Install NGINX Gateway
+Install NGF Gateway
+
+values.yaml
+```
+
+certGenerator:
+  enable: true
+  serverTLSSecretName: server-tls
+  agentTLSSecretName: agent-tls
+  overwrite: true
 
 ```
+helm install ngf \
+oci://ghcr.io/nginx/charts/nginx-gateway-fabric \
+-n nginx-gateway  --create-namespace \
+-f ngf-values.yaml
+```
+<img width="1033" height="300" alt="image" src="https://github.com/user-attachments/assets/badc1b82-7903-4172-887f-08e2cd5040dc" />
+
+
+step 3: install jetstack cert manager
+
+```
+helm repo add cert-manager https://charts.jetstack.io
+helm repo update 
+helm install cert-manager-google-cas-issuer cert-manager/cert-manager-google-cas-issuer --version 0.10.2
+```
+
 kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.2.1/standard-install.yaml
 helm install ngf oci://ghcr.io/nginxinc/charts/nginx-gateway-fabric --create-namespace -n nginx-gateway
 
@@ -116,4 +144,5 @@ spec:
     - name: xyz # Name of your backend Service from the image
       port: 8000 # Port of your backend Service from the image
 ```
+
 
