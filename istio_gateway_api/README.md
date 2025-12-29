@@ -87,21 +87,7 @@ metadata:
   name: backend
   labels:
     name: backend
----
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: gateway
-  labels:
-    name: gateway
----
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: certs
-  labels:
-    name: certs
-    purpose: tls-certificates
+    istio-injection: enabled
 ```
 
 Apply the namespaces:
@@ -197,26 +183,44 @@ kubectl get pods -n cert-manager
 Step 2: Create a ClusterIssuer and Certificate
 
 clusterissuer.yml:
+
 ```
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
-  name: ca-issuer
+  name: letsencrypt-dns
 spec:
-  selfSigned: {}
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: devops@gmail.com
+    privateKeySecretRef:
+      name: letsencrypt-dns-key
+    solvers:
+      - dns01:
+          route53:
+            region: ap-south-1
+            hostedZoneID: <r53 hzone ID>
+            accessKeyID: **********
+            secretAccessKeySecretRef:
+              name: route53-credentials-secret
+              key: aws_secret_access_key
 ---
+
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: app-local-cert
-  namespace: certs
+  name: wildcard-opendots
+  namespace: istio-system
 spec:
-  secretName: app-local-tls
+  secretName: wildcard-opendots-tls
   issuerRef:
+    name: letsencrypt-dns
     kind: ClusterIssuer
-    name: ca-issuer
   dnsNames:
-  - "*.xyz.ai"
+    - "*.xyz.com"
+    - xyz.com
+
+
 ```
 
 
@@ -225,9 +229,9 @@ Apply it:
 kubectl apply -f clusterissuer.yml
 #Verify the certificate was created:
 
-kubectl get certificate -n certs
-kubectl get secret app-local-tls -n certs
+kubectl get certificate -n cert-manager
 ```
+<img width="759" height="184" alt="image" src="https://github.com/user-attachments/assets/f82ab7ab-dbb7-4674-8971-005fe83eefd4" />
 
 
 
@@ -393,6 +397,7 @@ Explore advanced Gateway API features (traffic splitting, timeouts, retries)
 Integrate Istio observability tools (Grafana, Kiali, Jaeger)
 Implement mutual TLS (mTLS) for service-to-service communication
 Configure rate limiting and circuit breakers
+
 
 
 
