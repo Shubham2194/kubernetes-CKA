@@ -34,54 +34,60 @@ Ensure that:
 
 We created a policy allowing:
 
+```
 sqs:ReceiveMessage
-
 sqs:DeleteMessage
-
 sqs:GetQueueAttributes
-
 sqs:GetQueueUrl
-
 kms:Decrypt
-
 kms:GenerateDataKey
+```
 
 Attached it to an IAM Role:
 
-proview-prod-sqs
+```
+prod-sqs
+```
 
 2️⃣ Created IRSA Role
 
 Using EKS OIDC provider:
 
+```
 Action = "sts:AssumeRoleWithWebIdentity"
 Condition = {
   StringEquals = {
     "system:serviceaccount:backend:prod"
   }
 }
+```
+
 
 
 Now only pods using:
 
+```
 serviceAccountName: prod
 namespace: backend
-
+```
 
 can assume this role.
 
+
 3️⃣ Annotated Kubernetes ServiceAccount
+```
 serviceAccount:
   name: prod
   annotations:
-    eks.amazonaws.com/role-arn: arn:aws:iam::ACCOUNT:role/proview-prod-sqs
-
+    eks.amazonaws.com/role-arn: arn:aws:iam::ACCOUNT:role/prod-sqs
+```
 
 Pods automatically received:
 
+```
 AWS_ROLE_ARN
 AWS_WEB_IDENTITY_TOKEN_FILE
-
+```
 
 No secrets. No access keys. Secure by design.
 
@@ -96,27 +102,28 @@ If we restrict SQS only to IRSA role…
 Because SNS acts as a producer.
 
 So we added:
-
+```
 {
   "Principal": {
     "Service": "sns.amazonaws.com"
   },
   "Action": "sqs:SendMessage"
 }
-
+```
 
 And for consumer:
 
+```
 {
   "Principal": {
-    "AWS": "arn:aws:iam::ACCOUNT:role/proview-prod-sqs"
+    "AWS": "arn:aws:iam::ACCOUNT:role/prod-sqs"
   },
   "Action": [
     "sqs:ReceiveMessage",
     "sqs:DeleteMessage"
   ]
 }
-
+```
 
 Now:
 
@@ -137,46 +144,107 @@ Before touching prod queues:
 
 Never test security changes directly in production.
 
-🔥 Key Lessons
 
-Terraform replaces SQS policies entirely — it does NOT merge.
+terraform code :
 
-Importing resources doesn’t protect existing permissions.
+SQS queue
+```
+resource "aws_sqs_queue" "dummy" {
+  name                        = "dummy.fifo"
+  fifo_queue                  = true
+  content_based_deduplication = true
 
-Always account for producers (SNS) when locking down consumers.
+  tags = {
+    Environment = var.environment
+    ManagedBy   = "terraform"
+  }
+}
+```
 
-IRSA eliminates static credentials completely.
+SNS 
+```
+resource "aws_sns_topic" "dummy" {
+  name                        = "dummy.fifo"
+  fifo_topic                  = true
+  content_based_deduplication = true
+}
+```
 
-Test with dummy infra before tightening prod.
+Subscribe Queue to Topic
 
-💡 Why This Matters
+```
+resource "aws_sns_topic_subscription" "dummy_sub" {
+  topic_arn = aws_sns_topic.dummy.arn
+  protocol  = "sqs"
+  endpoint  = aws_sqs_queue.dummy.arn
+}
+```
 
-This change:
 
-Eliminated credential sprawl
+🚀 Attach Queue Policy (🔥 Most Important)
 
-Enforced namespace-level access control
+This is the secure part.
 
-Reduced blast radius
+```
+data "aws_caller_identity" "current" {}
 
-Made infra declarative and auditable
+resource "aws_sqs_queue_policy" "dummy_policy" {
+  queue_url = aws_sqs_queue.dummy.id
 
-Security without slowing development.
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
 
-If you're running EKS + SQS and still using static credentials inside pods…
+      # ✅ Allow SNS to publish to SQS
+      {
+        Sid = "AllowSNSPublish",
+        Effect = "Allow",
+        Principal = {
+          Service = "sns.amazonaws.com"
+        },
+        Action = "sqs:SendMessage",
+        Resource = aws_sqs_queue.dummy.arn,
+        Condition = {
+          ArnEquals = {
+            "aws:SourceArn" = aws_sns_topic.dummy.arn
+          }
+        }
+      },
 
-It’s time to switch to IRSA.
+      # ✅ Allow IRSA role to consume
+      {
+        Sid = "AllowIRSAConsume",
+        Effect = "Allow",
+        Principal = {
+          AWS = var.irsa_role_arn
+        },
+        Action = [
+          "sqs:ReceiveMessage",
+          "sqs:DeleteMessage",
+          "sqs:GetQueueAttributes",
+          "sqs:GetQueueUrl"
+        ],
+        Resource = aws_sqs_queue.dummy.arn
+      }
 
-#DevOps #AWS #EKS #Kubernetes #Terraform #CloudSecurity #IRSA #SQS #SNS #CloudArchitecture
+    ]
+  })
+}
 
-If you want, I can:
+```
 
-Make a shorter version (more viral style)
 
-Add a simple architecture diagram
+🧪 Test Flow
+Publish:
+aws sns publish \
+  --topic-arn <dummy-topic-arn> \
+  --message "hello" \
+  --message-group-id test
 
-Convert into carousel content
+  
 
-Add a stronger storytelling hook
+Watch pod:
+kubectl logs -f deploy/sqs-worker -n backend
 
-Tell me your vibe — technical, leadership, or impact-focused? 🚀
+
+
