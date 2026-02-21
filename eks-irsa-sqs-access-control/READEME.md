@@ -49,6 +49,10 @@ Attached it to an IAM Role:
 prod-sqs
 ```
 
+
+<img width="686" height="178" alt="image" src="https://github.com/user-attachments/assets/f5e11160-9449-4df9-868e-32c8987a5a9f" />
+
+
 2️⃣ Created IRSA Role
 
 Using EKS OIDC provider:
@@ -63,7 +67,6 @@ Condition = {
 ```
 
 
-
 Now only pods using:
 
 ```
@@ -74,13 +77,17 @@ namespace: backend
 can assume this role.
 
 
-3️⃣ Annotated Kubernetes ServiceAccount
+3️⃣ Annotated Kubernetes ServiceAccount, add this in values.yaml in which Service account in getting created
 ```
 serviceAccount:
   name: prod
   annotations:
     eks.amazonaws.com/role-arn: arn:aws:iam::ACCOUNT:role/prod-sqs
 ```
+
+
+<img width="676" height="147" alt="image" src="https://github.com/user-attachments/assets/fe3347fa-ecb5-43c7-a3b4-18a8dfb60220" />
+
 
 Pods automatically received:
 
