@@ -254,10 +254,15 @@ aws sns publish \
   --message "hello" \
   --message-group-id test
 
-  
+You can also public from UI:
+
+<img width="1607" height="604" alt="image" src="https://github.com/user-attachments/assets/838d17a1-f462-4c27-91ad-46f801a8ce4d" />
+
 
 Watch pod:
 kubectl logs -f deploy/sqs-worker -n backend
+
+<img width="1186" height="234" alt="image" src="https://github.com/user-attachments/assets/c78730de-c9b9-43e6-a050-360d4a97b845" />
 
 
 
