@@ -1,4 +1,8 @@
-🚀 Securing SQS Access in EKS using IRSA (Production Story)
+<img width="1704" height="734" alt="image" src="https://github.com/user-attachments/assets/be594732-51bc-41c3-828f-80465477edf4" />
+
+
+**🚀 Securing SQS Access in EKS using IRSA (Production Story)
+**
 
 Recently, I implemented a secure access model between EKS Pods and SQS using IRSA (IAM Roles for Service Accounts) — and I want to share why this matters.
 
@@ -30,8 +34,8 @@ Ensure that:
 ✅ Everything managed via Terraform
 
 🏗 Step-by-Step Implementation
-1️⃣ Created IAM Policy for SQS + KMS
-
+**1️⃣ Created IAM Policy for SQS + KMS
+**
 We created a policy allowing:
 
 ```
@@ -53,8 +57,8 @@ prod-sqs
 <img width="686" height="178" alt="image" src="https://github.com/user-attachments/assets/f5e11160-9449-4df9-868e-32c8987a5a9f" />
 
 
-2️⃣ Created IRSA Role
-
+**2️⃣ Created IRSA Role
+**
 Using EKS OIDC provider:
 
 ```
@@ -77,7 +81,9 @@ namespace: backend
 can assume this role.
 
 
-3️⃣ Annotated Kubernetes ServiceAccount, add this in values.yaml in which Service account in getting created
+**3️⃣ Annotated Kubernetes ServiceAccount, add this in values.yaml in which Service account in getting created
+**
+
 ```
 serviceAccount:
   name: prod
@@ -98,8 +104,8 @@ AWS_WEB_IDENTITY_TOKEN_FILE
 
 No secrets. No access keys. Secure by design.
 
-4️⃣ Updated SQS Queue Policy (Critical Step)
-
+**4️⃣ Updated SQS Queue Policy (Critical Step)
+**
 Important realization:
 
 If we restrict SQS only to IRSA role…
