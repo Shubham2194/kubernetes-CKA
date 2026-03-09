@@ -361,8 +361,11 @@ Conclusion
 You’ve successfully built a modern Kubernetes ingress setup using Istio and Gateway API! This architecture provides:
 
 ✅ Flexibility: Easy to add new routes and services
+
 ✅ Security: Namespace isolation and explicit permissions
+
 ✅ Scalability: Istio’s powerful traffic management
+
 ✅ Standards-based: Using the official Gateway API
 
 The Gateway API represents the future of Kubernetes traffic management,
@@ -370,12 +373,18 @@ offering better separation of concerns between cluster operators and application
 By following this guide, you’ve laid the foundation for a production-ready ingress architecture.
 
 Next Steps:
-Explore advanced Gateway API features (traffic splitting, timeouts, retries)
-Integrate Istio observability tools (Grafana, Kiali, Jaeger)
-Implement mutual TLS (mTLS) for service-to-service communication
-Configure rate limiting and circuit breakers
+> Introduce Service Mesh
+
+> Explore advanced Gateway API features (traffic splitting, timeouts, retries)
+
+> Integrate Istio observability tools (Grafana, Kiali, Jaeger)
+
+>Implement mutual TLS (mTLS) for service-to-service communication
+
+>Configure rate limiting and circuit breakers
 
 
+Happy Learning !!!
 
 
 
