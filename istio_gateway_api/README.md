@@ -22,7 +22,9 @@ Prerequisites
 Before starting, ensure you have:
 
 A running Kubernetes cluster (Docker Desktop, kind, EKS, or minikube)
+
 kubectl CLI installed and configured
+
 Basic understanding of Kubernetes concepts (pods, services, deployments)
 
 Let's Begin:
@@ -367,6 +369,7 @@ Explore advanced Gateway API features (traffic splitting, timeouts, retries)
 Integrate Istio observability tools (Grafana, Kiali, Jaeger)
 Implement mutual TLS (mTLS) for service-to-service communication
 Configure rate limiting and circuit breakers
+
 
 
 
