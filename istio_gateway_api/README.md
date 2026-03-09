@@ -213,7 +213,7 @@ spec:
           route53:
             region: ap-south-1
             hostedZoneID: <HostedZOne ID>
-            accessKeyID: AKIAU72LF7MGM6R4PPXX
+            accessKeyID: <ACCESS KEY>
             secretAccessKeySecretRef:
               name: route53-credentials-secret
               key: aws_secret_access_key
@@ -241,7 +241,7 @@ Apply it:
 kubectl apply -f clusterissuer.yml
 #Verify the certificate was created:
 
-kubectl get certificate -n cert-manager
+kubectl get certificate -n istio-system
 ```
 <img width="759" height="184" alt="image" src="https://github.com/user-attachments/assets/f82ab7ab-dbb7-4674-8971-005fe83eefd4" />
 
@@ -257,7 +257,7 @@ gateway.yml:
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
-  name: ogateway
+  name: gateway
   namespace: istio-system
 spec:
   gatewayClassName: istio
@@ -299,7 +299,7 @@ kubectl apply -f gateway.yml
 Check the gateway status:
 
 ```
-kubectl get gateway -n gateway
+kubectl get gateway -n istio-system
 ```
 
 
@@ -341,7 +341,7 @@ Matches all paths starting with /
 Forwards traffic to the nginx service on port 80
 Apply the HTTPRoute:
 ```
-kubectl apply -f htt_proute.yaml
+kubectl apply -f http_proute.yaml
 ```
 
 Verify it’s attached to the gateway:
@@ -369,6 +369,7 @@ Explore advanced Gateway API features (traffic splitting, timeouts, retries)
 Integrate Istio observability tools (Grafana, Kiali, Jaeger)
 Implement mutual TLS (mTLS) for service-to-service communication
 Configure rate limiting and circuit breakers
+
 
 
 
