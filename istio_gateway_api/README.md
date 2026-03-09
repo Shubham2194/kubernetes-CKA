@@ -1,6 +1,11 @@
+<img width="1358" height="638" alt="image" src="https://github.com/user-attachments/assets/8a04b6e1-5656-48e2-a0f7-23cf9bb29a0b" />
+
+
 ###Introduction###
 
+
 The Kubernetes Gateway API represents the future of ingress and service mesh traffic management. 
+
 Unlike traditional Ingress controllers, Gateway API provides a more expressive, extensible, 
 and role-oriented approach to configuring network access to your services.
 
@@ -369,6 +374,7 @@ Explore advanced Gateway API features (traffic splitting, timeouts, retries)
 Integrate Istio observability tools (Grafana, Kiali, Jaeger)
 Implement mutual TLS (mTLS) for service-to-service communication
 Configure rate limiting and circuit breakers
+
 
 
 
