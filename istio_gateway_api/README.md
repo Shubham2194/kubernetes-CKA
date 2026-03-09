@@ -10,8 +10,11 @@ setup with namespace isolation and security best practices.
 
 What You’ll Build
 ✅ Istio service mesh with Gateway API support
+
 ✅ NGINX application deployment
+
 ✅ HTTP and HTTPS routing with custom hostnames
+
 ✅ TLS certificate management with cert-manager
 
 
@@ -364,6 +367,7 @@ Explore advanced Gateway API features (traffic splitting, timeouts, retries)
 Integrate Istio observability tools (Grafana, Kiali, Jaeger)
 Implement mutual TLS (mTLS) for service-to-service communication
 Configure rate limiting and circuit breakers
+
 
 
 
