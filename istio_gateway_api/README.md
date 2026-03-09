@@ -1,4 +1,5 @@
 ###Introduction###
+
 The Kubernetes Gateway API represents the future of ingress and service mesh traffic management. 
 Unlike traditional Ingress controllers, Gateway API provides a more expressive, extensible, 
 and role-oriented approach to configuring network access to your services.
@@ -9,11 +10,10 @@ setup with namespace isolation and security best practices.
 
 What You’ll Build
 ✅ Istio service mesh with Gateway API support
-✅ Multi-namespace architecture (apps, gateway, certs)
 ✅ NGINX application deployment
 ✅ HTTP and HTTPS routing with custom hostnames
 ✅ TLS certificate management with cert-manager
-✅ Cross-namespace access control with ReferenceGrants
+
 
 Prerequisites
 Before starting, ensure you have:
@@ -76,8 +76,7 @@ kubectl api-resources | grep gateway
 
 Part 2: Setting Up the Namespace Architecture
 
-A well-structured namespace architecture improves security and organization. We’ll create three namespaces:
-
+This will create backend namespace and inject istio in our backend namespace (we are going to deploy our backend in backend namespace).
 namespace.yml:
 
 ```
@@ -96,11 +95,6 @@ Apply the namespaces:
 kubectl apply -f namespace.yml
 ```
 
-Why three namespaces?
-
-backend: For application workloads
-gateway: For ingress gateways (isolation from apps)
-certs: For centralized TLS certificate storage
 
 Part 3: Deploying the Application
 
@@ -180,7 +174,21 @@ kubectl get pods -n cert-manager
 
 <img width="756" height="257" alt="image" src="https://github.com/user-attachments/assets/6dbaa0c0-c6db-4600-a50a-532560e7d535" />
 
-Step 2: Create a ClusterIssuer and Certificate
+Step 2: Create a route53 secret with ClusterIssuer and Certificate
+
+r53.yaml:
+
+```
+apiVersion: v1
+kind: Secret
+metadata:
+  name: route53-credentials-secret
+  namespace: cert-manager
+type: Opaque
+stringData:
+  aws_access_key_id: *****************
+  aws_secret_access_key: ****************
+```
 
 clusterissuer.yml:
 
@@ -192,15 +200,15 @@ metadata:
 spec:
   acme:
     server: https://acme-v02.api.letsencrypt.org/directory
-    email: devops@gmail.com
+    email: shubham.shastri1994@gmail.com
     privateKeySecretRef:
       name: letsencrypt-dns-key
     solvers:
       - dns01:
           route53:
             region: ap-south-1
-            hostedZoneID: <r53 hzone ID>
-            accessKeyID: **********
+            hostedZoneID: <HostedZOne ID>
+            accessKeyID: AKIAU72LF7MGM6R4PPXX
             secretAccessKeySecretRef:
               name: route53-credentials-secret
               key: aws_secret_access_key
@@ -212,14 +220,13 @@ metadata:
   name: wildcard-opendots
   namespace: istio-system
 spec:
-  secretName: wildcard-opendots-tls
+  secretName: wildcard-cert-tls
   issuerRef:
     name: letsencrypt-dns
     kind: ClusterIssuer
   dnsNames:
-    - "*.xyz.com"
+    - "*.xyz.zom"
     - xyz.com
-
 
 ```
 
@@ -245,34 +252,30 @@ gateway.yml:
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
-  name: gateway
-  namespace: gateway
+  name: ogateway
+  namespace: istio-system
 spec:
   gatewayClassName: istio
   listeners:
     - name: http
       protocol: HTTP
       port: 80
+      hostname: "*.xyz.com"
       allowedRoutes:
         namespaces:
-          from: Selector
-          selector:
-            matchLabels:
-              name: backend   # <-- Allow routes from 'backend' namespace
+          from: All
+
     - name: https
       protocol: HTTPS
       port: 443
+      hostname: "*.xyz.com"
       tls:
         mode: Terminate
         certificateRefs:
-        - name: app-local-tls
-          namespace: certs
+          - name: wildcard-cert-tls   # ✅ Same Cert that we created Earlier from CERTIFICATE object
       allowedRoutes:
         namespaces:
-          from: Selector
-          selector:
-            matchLabels:
-              name: backend   # <-- Allow routes from 'backend' namespace
+          from: All 
 ```
 
 
@@ -296,44 +299,8 @@ kubectl get gateway -n gateway
 
 
 
-Part 6: Setting Up ReferenceGrants
-Since we’re referencing resources across namespaces (Gateway in gateway namespace accessing Secret in certs namespace),
-we need to explicitly allow this with ReferenceGrants.
 
-referencegrant.yaml:
-
-```
-# Allow Gateway to use TLS secret from 'certs' namespace
-apiVersion: gateway.networking.k8s.io/v1beta1
-kind: ReferenceGrant
-metadata:
-  name: allow-gateway-to-tls-secret
-  namespace: certs
-spec:
-  from:
-  - group: gateway.networking.k8s.io
-    kind: Gateway
-    namespace: gateway
-  to:
-  - group: ""
-    kind: Secret
-    name: app-local-tls
-```
-
-
-
-Understanding ReferenceGrants:
-
-Created in the target namespace (the one being referenced)
-from specifies who can access (source)
-to specifies what can be accessed (target)
-Apply the grants:
-
-```
-kubectl apply -f referencegrant.yaml
-```
-
-Part 7: Creating the HTTPRoute
+Part 6: Creating the HTTPRoute
 Now we’ll configure routing rules that direct traffic from the Gateway to our backend service.
 
 http_route.yaml
@@ -346,7 +313,7 @@ metadata:
   namespace: backend
 spec:
   hostnames:
-  - "abc-xyz.ai"
+  - "abc-xyz.com"
   parentRefs:
   - name: gateway
     namespace: gateway
@@ -397,6 +364,7 @@ Explore advanced Gateway API features (traffic splitting, timeouts, retries)
 Integrate Istio observability tools (Grafana, Kiali, Jaeger)
 Implement mutual TLS (mTLS) for service-to-service communication
 Configure rate limiting and circuit breakers
+
 
 
 
