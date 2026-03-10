@@ -227,7 +227,7 @@ spec:
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: wildcard-opendots
+  name: wildcard
   namespace: istio-system
 spec:
   secretName: wildcard-cert-tls
@@ -385,6 +385,7 @@ Next Steps:
 
 
 Happy Learning !!!
+
 
 
 
