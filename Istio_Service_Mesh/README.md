@@ -325,7 +325,7 @@ Automatic sidecars + secure communication.
 Gradual rollout.
 
 90% → v1
-10% → v2
+10% → v2\
 3️⃣ Blue/Green
 
 Instant switch between versions.
