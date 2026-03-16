@@ -322,7 +322,7 @@ Automatic sidecars + secure communication.
 2️⃣ Canary Deployment\
 Gradual rollout.
 
-90% → v1
+90% → v1\
 10% → v2
 
 3️⃣ Blue/Green\
