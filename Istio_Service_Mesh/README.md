@@ -22,7 +22,7 @@ Step1 : Start Podman
 ```
  podman machine start
 ```
-![alt text](image-1.png)
+![alt text](podman.png)
 
 
 
@@ -31,7 +31,7 @@ Step 2: Run Kind cluster
 ```
 kind create cluster --name=serviceMesh
 ```
-![alt text](image.png)
+![alt text](kind.png)
 
 Verfify:
 ```
@@ -55,7 +55,7 @@ Verify:
 kubectl get pods -n istio-system
 ```
 
-![alt text](image-2.png)
+![alt text](istio.png)
 
 Step 4 — Enable Sidecar Injection
 
@@ -150,7 +150,7 @@ spec:
   - port: 80
     targetPort: 5678
 ```
-![alt text](image-4.png)
+![alt text](deployments.png)
 
 Step 7 — DestinationRule
 
@@ -200,13 +200,13 @@ spec:
 ```
 
 
-![alt text](image-5.png)
+![alt text](des_rule.png)
 
 ```
 kubectl get deploy,svc,DestinationRule,virtualservice -n backend
 ```
 
-![alt text](image-6.png)
+![alt text](app-svc.png)
 
 Result:
 
@@ -229,7 +229,7 @@ version v1
 version v2
 
 
-![alt text](image-7.png)
+![alt text](canary.png)
 
 
 Step 9 — Blue Green Deployment
@@ -253,7 +253,7 @@ Rollback easy:
 
 100% → v1
 
-![alt text](image-8.png)
+![alt text](blue_green.png)
 
 Step 10 — Enable mTLS (Service Mesh Security)
 ```
@@ -274,7 +274,7 @@ Step 11 - Install Prometheus (Kiali requires Prometheus to render the service me
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.20/samples/addons/prometheus.yaml
 ```
 
-![alt text](image-10.png)
+![alt text](prometheus.png)
 
 
 Step 11 — Install Kiali
@@ -285,7 +285,7 @@ Kiali shows service mesh graph.
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.20/samples/addons/kiali.yaml
 ```
 
-![alt text](image-9.png)
+![alt text](kiali-deployment.png)
 
 Open dashboard:
 
