@@ -1,19 +1,19 @@
 #Service MESH
-Phase 1 (done) (find in https://github.com/Shubham2194/kubernetes-CKA/tree/main/istio_gateway_api)
+Phase 1 (done) (find in https://github.com/Shubham2194/kubernetes-CKA/tree/main/istio_gateway_api)\
 Ingress Gateway + TLS + HTTPRoute
 
-Phase 2 (your next POC)
+Phase 2 (your next POC)\
 Service Mesh + Traffic Control
 
 This means demonstrating:
 
-1️⃣ Service Mesh (sidecars + mTLS)
-2️⃣ Canary deployment (traffic splitting)
-3️⃣ Blue/Green deployment
+1️⃣ Service Mesh (sidecars + mTLS)\
+2️⃣ Canary deployment (traffic splitting)\
+3️⃣ Blue/Green deployment\
 4️⃣ Observability (Kiali graph)
 
-Prerequisites:
-- Podman (install from Official Website https://podman.io/docs/installation)
+Prerequisites:\
+- Podman (install from Official Website https://podman.io/docs/installation)\
 - Kind (Install from Official website https://kind.sigs.k8s.io/docs/user/quick-start/#installation)
 
 
