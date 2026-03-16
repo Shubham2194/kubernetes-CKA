@@ -255,7 +255,7 @@ Rollback easy:
 
 100% → v1
 
-![alt text](blue_green.png)
+![alt text](bluegreen.png)
 
 Step 10 — Enable mTLS (Service Mesh Security)
 ```
