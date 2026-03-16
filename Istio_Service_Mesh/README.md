@@ -1,7 +1,7 @@
 ![alt text](istio-envoy.png)
 
 #Service MESH\
-Phase 1 (done) (find in https://github.com/Shubham2194/kubernetes-CKA/tree/main/istio_gateway_api)\
+Phase 1 (done) (find in https://github.com/Shubham2194/kubernetes-CKA/tree/main/istio_gateway_api) \
 Ingress Gateway\ + TLS\ + HTTPRoute
 
 Phase 2 (your next POC)\
