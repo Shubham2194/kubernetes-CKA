@@ -15,7 +15,7 @@ This means demonstrating:
 4️⃣ Observability (Kiali graph)
 
 Prerequisites:
-- Podman (install from Official Website https://podman.io/docs/installation)\
+- Podman (install from Official Website https://podman.io/docs/installation)
 - Kind (Install from Official website https://kind.sigs.k8s.io/docs/user/quick-start/#installation)
 
 
