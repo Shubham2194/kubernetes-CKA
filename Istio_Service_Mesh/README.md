@@ -316,24 +316,20 @@ What This POC Demonstrates
 
 Your POC will prove:
 
-1️⃣ Service Mesh
-
+1️⃣ Service Mesh/
 Automatic sidecars + secure communication.
 
-2️⃣ Canary Deployment
-
+2️⃣ Canary Deployment/
 Gradual rollout.
 
 90% → v1
-10% → v2\
-3️⃣ Blue/Green
+10% → v2
 
+3️⃣ Blue/Green/
 Instant switch between versions.
 
-4️⃣ Zero Trust Security
-
+4️⃣ Zero Trust Security/
 mTLS enabled.
 
-5️⃣ Observability
-
+5️⃣ Observability/
 Kiali traffic graph.
