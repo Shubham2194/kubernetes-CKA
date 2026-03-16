@@ -14,7 +14,7 @@ This means demonstrating:
 3️⃣ Blue/Green deployment\
 4️⃣ Observability (Kiali graph)
 
-Prerequisites:\
+Prerequisites:
 - Podman (install from Official Website https://podman.io/docs/installation)\
 - Kind (Install from Official website https://kind.sigs.k8s.io/docs/user/quick-start/#installation)
 
